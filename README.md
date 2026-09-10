@@ -61,7 +61,7 @@ src/
   market/       -> cliente Binance de solo lectura + indicadores + killzones
   engine/       -> motor de confluencias y gestión de riesgo
   alerts/       -> despachador de alertas (consola / Telegram / Discord)
-  db/           -> esquema y repositorios SQLite (better-sqlite3)
+  db/           -> esquema y repositorios SQLite (node:sqlite, sin dependencias nativas)
   resolver/     -> job en background que marca WIN/LOSS
   learning/     -> prompt de autocrítica + cliente Claude + orquestador
 docs/

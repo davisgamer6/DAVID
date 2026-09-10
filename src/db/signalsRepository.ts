@@ -1,9 +1,9 @@
-import type Database from "better-sqlite3";
+import type { DatabaseSync } from "node:sqlite";
 import { randomUUID } from "node:crypto";
 import { SignalCandidate, SignalRecord, SignalStatus } from "../types/signal.js";
 
 export class SignalsRepository {
-  constructor(private readonly db: Database.Database) {}
+  constructor(private readonly db: DatabaseSync) {}
 
   insert(candidate: SignalCandidate): SignalRecord {
     const record: SignalRecord = {
@@ -30,7 +30,19 @@ export class SignalsRepository {
           (id, created_at, strategy_id, symbol, direction, entry_price, stop_loss, take_profit, risk_reward, status, context_json)
          VALUES (@id, @createdAt, @strategyId, @symbol, @direction, @entryPrice, @stopLoss, @takeProfit, @riskReward, @status, @contextJson)`
       )
-      .run(record);
+      .run({
+        id: record.id,
+        createdAt: record.createdAt,
+        strategyId: record.strategyId,
+        symbol: record.symbol,
+        direction: record.direction,
+        entryPrice: record.entryPrice,
+        stopLoss: record.stopLoss,
+        takeProfit: record.takeProfit,
+        riskReward: record.riskReward,
+        status: record.status,
+        contextJson: record.contextJson,
+      });
 
     return record;
   }
@@ -109,7 +121,7 @@ export interface StrategyAdjustmentRecord {
 }
 
 export class StrategyAdjustmentsRepository {
-  constructor(private readonly db: Database.Database) {}
+  constructor(private readonly db: DatabaseSync) {}
 
   insert(record: Omit<StrategyAdjustmentRecord, "createdAt">): number {
     const info = this.db
