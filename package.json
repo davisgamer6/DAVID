@@ -14,7 +14,11 @@
     "ingest:example": "tsx scripts/ingestExampleStrategy.ts",
     "resolve": "tsx scripts/runResolverOnce.ts",
     "learn": "tsx scripts/runFeedbackLoop.ts",
-    "db:init": "tsx scripts/initDb.ts"
+    "db:init": "tsx scripts/initDb.ts",
+    "24-7:start": "npx --yes pm2 start ecosystem.config.cjs && npx --yes pm2 save",
+    "24-7:stop": "npx --yes pm2 stop bot-trading && npx --yes pm2 delete bot-trading && npx --yes pm2 save",
+    "24-7:logs": "npx --yes pm2 logs bot-trading",
+    "24-7:status": "npx --yes pm2 list"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.32.1",

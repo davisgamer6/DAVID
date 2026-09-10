@@ -5,6 +5,10 @@ export interface Candle {
   low: number;
   close: number;
   volume: number;
+  /** Volumen comprado por "takers" (agresores de mercado), reportado por Binance en el propio
+   *  stream de klines (campo `V`). Permite aproximar el Delta (compra - venta) sin necesitar
+   *  el stream de aggTrades: ventaTaker = volume - takerBuyVolume. */
+  takerBuyVolume?: number;
   closeTime: number;
   isClosed: boolean;
 }

@@ -32,6 +32,41 @@ Para añadir tus propias estrategias en este modo, solo copia tu archivo
 `.json` dentro de la carpeta `src/strategies/examples` y vuelve a hacer
 doble clic en el iniciador.
 
+## Modo 24/7 (sin dejar una ventana abierta)
+
+Los iniciadores de arriba (`iniciar-bot.*`) requieren dejar esa ventana
+negra abierta todo el tiempo — si la cierras, el bot se apaga. Para que
+corra en segundo plano de forma continua (y se reinicie solo si llegara a
+fallar), usa en su lugar:
+
+- `bot-24-7-iniciar.bat` (Windows) / `.command` (Mac) / `.sh` (Linux)
+- `ver-alertas.bat` / `.command` / `.sh` — para ver las alertas en vivo cuando quieras
+- `bot-24-7-apagar.bat` / `.command` / `.sh` — para apagarlo por completo
+
+Esto usa [PM2](https://pm2.keymetrics.io/), un administrador de procesos
+estándar de Node.js: descarga el bot como cualquier programa de segundo
+plano (como los que usan las apps de escritorio), sin instalarlo de forma
+permanente en tu sistema.
+
+**Importante — qué significa "24/7" aquí:** el bot corre continuamente
+**mientras la computadora esté encendida**. Si apagas la computadora, el
+bot se apaga con ella (es lo esperado: es tu computadora, no un servidor).
+Para que arranque solo cada vez que la enciendas:
+
+1. Presiona `Win + R`, escribe `shell:startup` y presiona Enter (se abre
+   una carpeta de Windows).
+2. En la carpeta del bot, haz **clic derecho** sobre `bot-24-7-iniciar.bat`
+   → **Crear acceso directo**.
+3. Arrastra ese acceso directo a la carpeta que se abrió en el paso 1.
+
+Listo — desde la próxima vez que enciendas la computadora, el bot arranca
+solo en segundo plano.
+
+Si en cambio quieres que corra de verdad las 24 horas sin depender de que
+tu computadora esté prendida, la alternativa es alquilar un servidor barato
+en la nube (VPS) que sí está siempre encendido, y correr ahí estos mismos
+comandos — es una opción más avanzada, pregúntame si te interesa explorarla.
+
 ## Arranque rápido (modo terminal)
 
 ```bash
@@ -78,11 +113,24 @@ Zod y lo rechaza (con un log claro) si el JSON no es válido — así un
 pipeline de extracción automática con errores nunca puede tumbar el bot ni
 generar señales corruptas.
 
-Tipos de condición soportados out-of-the-box: `LIQUIDITY_SWEEP`, `FVG`,
-`ORDER_BLOCK`, `EMA_TREND_FILTER`, `ATR_VOLATILITY_FILTER`. Para añadir un
-nuevo tipo (por ejemplo un patrón propio), registra un evaluador con
-`registerConditionEvaluator()` en `src/engine/confluenceEvaluator.ts` — el
-resto del sistema no necesita cambios.
+Tipos de condición soportados out-of-the-box:
+
+| Tipo | Qué detecta |
+|---|---|
+| `LIQUIDITY_SWEEP` | Mecha que rompe un máximo/mínimo reciente y el cuerpo cierra de vuelta adentro |
+| `BREAK_OF_STRUCTURE` | MSS/CHoCH: el **cierre** de la vela (no solo la mecha) queda más allá de la estructura previa |
+| `FVG` | Fair Value Gap; con `requireConsequentEncroachment: true` exige que el precio esté justo en el punto medio del hueco (CE) |
+| `ORDER_BLOCK` | Vela de origen de un impulso fuerte, con línea proximal (apertura) y distal (mecha extrema); se invalida si una vela posterior cerró más allá de la distal |
+| `OTE_FIBONACCI` | Retroceso del precio dentro de la banda 62%-79% (Optimal Trade Entry) del último tramo impulsivo |
+| `VOLUME_CLIMACTIC_DELTA` | Pico de volumen (múltiplo configurable del promedio) + Delta comprador/vendedor, calculado con el volumen de takers que Binance ya reporta en el stream de klines |
+| `EMA_TREND_FILTER` | Precio por encima/debajo de una media móvil exponencial |
+| `RSI_FILTER` | RSI en sobrecompra/sobreventa (entradas en retroceso) |
+| `ATR_VOLATILITY_FILTER` | Percentil de volatilidad (ATR) reciente |
+
+Para añadir un nuevo tipo (por ejemplo un patrón propio), registra un
+evaluador con `registerConditionEvaluator()` en
+`src/engine/confluenceEvaluator.ts` — el resto del sistema no necesita
+cambios.
 
 ## Nota sobre las etiquetas de alerta
 

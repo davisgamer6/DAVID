@@ -28,6 +28,8 @@ export const ConditionTypeSchema = z.enum([
   "RSI_FILTER",
   "ATR_VOLATILITY_FILTER",
   "BREAK_OF_STRUCTURE",
+  "OTE_FIBONACCI",
+  "VOLUME_CLIMACTIC_DELTA",
 ]);
 export type ConditionType = z.infer<typeof ConditionTypeSchema>;
 

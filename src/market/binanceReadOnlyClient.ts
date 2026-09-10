@@ -80,6 +80,7 @@ export class BinanceReadOnlyClient extends EventEmitter {
       low: Number(k.l),
       close: Number(k.c),
       volume: Number(k.v),
+      takerBuyVolume: Number(k.V),
       closeTime: k.T,
       isClosed: Boolean(k.x),
     };
