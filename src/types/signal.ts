@@ -1,9 +1,9 @@
 export type SignalDirection = "LONG" | "SHORT";
 export type SignalStatus = "PENDING" | "WIN" | "LOSS" | "EXPIRED";
 
-/** Etiquetas visuales pedidas por el usuario para la alerta informativa. */
+/** Etiquetas visuales de la alerta informativa. */
 export const DIRECTION_LABEL: Record<SignalDirection, { text: string; color: "green" | "red" }> = {
-  LONG: { text: "SELL", color: "green" }, // etiqueta verde de compra/largo, tal como se especifico
+  LONG: { text: "BUY", color: "green" },
   SHORT: { text: "SHORT", color: "red" },
 };
 

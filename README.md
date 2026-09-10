@@ -144,12 +144,10 @@ evaluador con `registerConditionEvaluator()` en
 `src/engine/confluenceEvaluator.ts` — el resto del sistema no necesita
 cambios.
 
-## Nota sobre las etiquetas de alerta
+## Etiquetas de alerta
 
-Tal como se especificó en los requisitos, la etiqueta verde usa el texto
-`SELL` para señales `LONG` y la roja usa `SHORT` para señales `SHORT`
-(ver `src/types/signal.ts::DIRECTION_LABEL`). Si el texto pretendía ser
-`BUY` para los largos, es un cambio de una sola línea en ese archivo.
+Etiqueta verde `BUY` para señales `LONG` y etiqueta roja `SHORT` para
+señales `SHORT` (ver `src/types/signal.ts::DIRECTION_LABEL`).
 
 ## Seguridad / Solo lectura
 

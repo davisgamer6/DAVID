@@ -29,7 +29,7 @@ flowchart TD
 
     subgraph Salida["3. Alerta informativa"]
         CANDIDATE --> DISPATCH["alertDispatcher.ts"]
-        DISPATCH --> CONSOLE["🟢 SELL / 🔴 SHORT\n(consola)"]
+        DISPATCH --> CONSOLE["🟢 BUY / 🔴 SHORT\n(consola)"]
         DISPATCH --> TG["Telegram"]
         DISPATCH --> DC["Discord"]
     end
