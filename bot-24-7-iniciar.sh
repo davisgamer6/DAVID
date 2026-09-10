@@ -22,8 +22,11 @@ fi
 
 mkdir -p data
 
+echo "Preparando el bot (compilando)..."
+npm run build
+
 if [ ! -f data/trading-alerts.db ]; then
-  npm run db:init
+  node dist/scripts/initDb.js
 fi
 
 echo "Iniciando el bot en segundo plano..."

@@ -77,11 +77,23 @@ npm run ingest:example    # valida la estrategia de ejemplo incluida
 npm run dev                # arranca el bot (mercado + alertas + resolver + feedback loop)
 ```
 
+`npm run dev` usa [tsx](https://github.com/privatenumber/tsx) para correr TypeScript
+directamente, lo cual es comodo en desarrollo pero en algunas combinaciones de
+Windows + versiones muy nuevas de Node.js puede fallar con un error
+`ERR_MODULE_NOT_FOUND`. Si eso te pasa, usa en su lugar la version compilada
+(es exactamente lo que hacen los lanzadores `iniciar-bot.*` y `bot-24-7-*`):
+
+```bash
+npm run build   # compila TypeScript a JavaScript plano en dist/
+node dist/scripts/initDb.js   # inicializa la base de datos
+node dist/src/index.js        # arranca el bot (sin depender de tsx)
+```
+
 Otros comandos:
 
 ```bash
 npm run build   # compila a dist/
-npm run start   # ejecuta dist/index.js
+npm run start   # ejecuta dist/src/index.js
 npm run resolve # ejecuta un ciclo de resolución de señales pendientes manualmente
 npm run learn   # dispara manualmente el bucle de autocrítica de Claude
 ```

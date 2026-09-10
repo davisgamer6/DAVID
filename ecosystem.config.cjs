@@ -5,8 +5,11 @@ module.exports = {
   apps: [
     {
       name: "bot-trading",
-      script: "./node_modules/tsx/dist/cli.mjs",
-      args: "src/index.ts",
+      // Usa el codigo ya compilado (dist/) en vez de ejecutar TypeScript al
+      // vuelo con tsx: evita problemas de compatibilidad de tsx con
+      // versiones de Node.js muy recientes. Recuerda correr "npm run build"
+      // antes de iniciar (los lanzadores bot-24-7-iniciar.* ya lo hacen).
+      script: "./dist/src/index.js",
       cwd: __dirname,
       autorestart: true,
       max_restarts: 30,

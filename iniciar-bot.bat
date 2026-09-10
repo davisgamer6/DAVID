@@ -39,9 +39,18 @@ if not exist data (
     mkdir data
 )
 
+echo Preparando el bot (compilando)...
+call npm run build
+if errorlevel 1 (
+    echo.
+    echo Algo fallo preparando el bot. Revisa el mensaje de arriba.
+    pause
+    exit /b 1
+)
+
 if not exist data\trading-alerts.db (
     echo Preparando la base de datos...
-    call npm run db:init
+    call node dist\scripts\initDb.js
 )
 
 echo.
@@ -51,7 +60,7 @@ echo Para apagarlo: cierra esta ventana o presiona Ctrl+C.
 echo ------------------------------------------------
 echo.
 
-call npm run dev
+call node dist\src\index.js
 
 echo.
 echo El bot se detuvo.
