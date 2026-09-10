@@ -10,7 +10,29 @@ Claude para auto-criticar y ajustar sus propios filtros periódicamente.
 [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) para el diseño completo y el
 diagrama de flujo de datos.
 
-## Arranque rápido
+## Modo fácil (sin usar la terminal)
+
+Si no tienes experiencia programando:
+
+1. Instala **Node.js** (una sola vez): entra a [nodejs.org](https://nodejs.org),
+   descarga la versión **LTS** e instálala (Siguiente → Siguiente → Instalar).
+2. Descarga este proyecto: en GitHub pulsa el botón verde **Code → Download ZIP**
+   y descomprímelo en una carpeta (ej. tu Escritorio).
+3. Abre esa carpeta y haz **doble clic** en:
+   - `iniciar-bot.bat` si usas **Windows**
+   - `iniciar-bot.command` si usas **Mac**
+   - `iniciar-bot.sh` si usas **Linux**
+
+Ese archivo hace todo por ti (instalar, preparar la base de datos, y encender
+el bot) y te avisa si falta algo. La primera vez tarda 1-2 minutos; las
+siguientes veces arranca casi al instante. Para apagarlo, cierra la ventana
+negra que se abrió o presiona `Ctrl+C` dentro de ella.
+
+Para añadir tus propias estrategias en este modo, solo copia tu archivo
+`.json` dentro de la carpeta `src/strategies/examples` y vuelve a hacer
+doble clic en el iniciador.
+
+## Arranque rápido (modo terminal)
 
 ```bash
 npm install
