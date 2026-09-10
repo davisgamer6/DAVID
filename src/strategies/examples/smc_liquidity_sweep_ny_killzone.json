@@ -1,0 +1,73 @@
+{
+  "id": "smc_liquidity_sweep_ny_killzone",
+  "name": "Barrido de Liquidez + FVG + Order Block en Killzone de NY",
+  "active": true,
+  "source": {
+    "youtubeUrl": "https://www.youtube.com/watch?v=EXAMPLE_ID",
+    "videoTitle": "ICT Smart Money Concepts: Liquidity Sweep + FVG Entry Model",
+    "channel": "Ejemplo Trading Channel",
+    "extractedAt": "2026-09-01T10:00:00Z",
+    "extractionConfidence": 0.87
+  },
+  "market": {
+    "symbols": ["BTCUSDT", "ETHUSDT"],
+    "timeframes": {
+      "analysis": "4h",
+      "entry": "5m"
+    },
+    "directionBias": "EITHER"
+  },
+  "session": {
+    "killzones": [
+      { "name": "London", "startUTC": "07:00", "endUTC": "09:00" },
+      { "name": "NewYork", "startUTC": "12:00", "endUTC": "14:30" }
+    ],
+    "allowWeekends": false
+  },
+  "entryRules": {
+    "logic": "AND",
+    "conditions": [
+      {
+        "type": "LIQUIDITY_SWEEP",
+        "timeframe": "5m",
+        "params": { "lookbackCandles": 20, "side": "EITHER", "minWickRatio": 0.4 },
+        "weight": 1
+      },
+      {
+        "type": "FVG",
+        "timeframe": "5m",
+        "params": { "minGapATRRatio": 0.15, "requireUnfilled": true },
+        "weight": 1
+      },
+      {
+        "type": "ORDER_BLOCK",
+        "timeframe": "5m",
+        "params": { "freshOnly": true, "lookbackCandles": 30 },
+        "weight": 0.8
+      },
+      {
+        "type": "EMA_TREND_FILTER",
+        "timeframe": "4h",
+        "params": { "period": 200, "mode": "PRICE_RELATIVE_TO_EMA" },
+        "weight": 0.6
+      }
+    ]
+  },
+  "riskManagement": {
+    "stopLoss": {
+      "method": "STRUCTURE",
+      "bufferATRMultiple": 0.25
+    },
+    "takeProfit": {
+      "method": "RR_MULTIPLE",
+      "rrTarget": 2.5
+    },
+    "minRiskReward": 2,
+    "maxRiskPercentPerTrade": 1
+  },
+  "filters": {
+    "minATRPercentile": 30,
+    "excludeNews": true,
+    "cooldownMinutesPerSymbol": 30
+  }
+}
