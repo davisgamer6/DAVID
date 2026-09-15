@@ -1,0 +1,36 @@
+{
+  "name": "trading-alerts-copilot",
+  "version": "1.0.0",
+  "description": "Bot de alertas de trading (solo lectura) con bucle de aprendizaje autonomo asistido por Claude",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node scripts/copyMigrations.mjs",
+    "start": "node dist/src/index.js",
+    "dev": "tsx watch src/index.ts",
+    "ingest:example": "tsx scripts/ingestExampleStrategy.ts",
+    "resolve": "tsx scripts/runResolverOnce.ts",
+    "learn": "tsx scripts/runFeedbackLoop.ts",
+    "db:init": "tsx scripts/initDb.ts",
+    "24-7:start": "npx --yes pm2 start ecosystem.config.cjs && npx --yes pm2 save",
+    "24-7:stop": "npx --yes pm2 stop bot-trading && npx --yes pm2 delete bot-trading && npx --yes pm2 save",
+    "24-7:logs": "npx --yes pm2 logs bot-trading",
+    "24-7:status": "npx --yes pm2 list"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.32.1",
+    "chalk": "^5.3.0",
+    "dotenv": "^16.4.5",
+    "ws": "^8.18.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/ws": "^8.5.12",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3"
+  }
+}

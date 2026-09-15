@@ -1,0 +1,90 @@
+{
+  "id": "smc_institucional_ny_london",
+  "name": "SMC Institucional: MSS + Sweep + FVG(CE) + OB + OTE + Volumen en Killzones NY/Londres",
+  "active": true,
+  "source": {
+    "videoTitle": "Especificacion suministrada por el usuario (no proviene de un video especifico)",
+    "extractedAt": "2026-09-10T20:00:00Z",
+    "extractionConfidence": 0.7
+  },
+  "market": {
+    "symbols": ["BTCUSDT"],
+    "timeframes": {
+      "analysis": "1h",
+      "entry": "5m"
+    },
+    "directionBias": "EITHER"
+  },
+  "session": {
+    "killzones": [
+      { "name": "London", "startUTC": "07:00", "endUTC": "10:00" },
+      { "name": "NewYork", "startUTC": "13:30", "endUTC": "16:00" }
+    ],
+    "allowWeekends": false
+  },
+  "entryRules": {
+    "logic": "WEIGHTED_SCORE",
+    "minScore": 0.75,
+    "conditions": [
+      {
+        "type": "BREAK_OF_STRUCTURE",
+        "timeframe": "5m",
+        "params": { "lookbackCandles": 20 },
+        "weight": 1
+      },
+      {
+        "type": "LIQUIDITY_SWEEP",
+        "timeframe": "5m",
+        "params": { "lookbackCandles": 20, "minWickRatio": 0.4 },
+        "weight": 0.8
+      },
+      {
+        "type": "VOLUME_CLIMACTIC_DELTA",
+        "timeframe": "5m",
+        "params": { "period": 20, "minVolumeMultiple": 2.0 },
+        "weight": 0.8
+      },
+      {
+        "type": "FVG",
+        "timeframe": "5m",
+        "params": { "minGapATRRatio": 0.15, "requireConsequentEncroachment": true, "ceTolerance": 0.15 },
+        "weight": 1
+      },
+      {
+        "type": "ORDER_BLOCK",
+        "timeframe": "5m",
+        "params": { "lookbackCandles": 30 },
+        "weight": 0.7
+      },
+      {
+        "type": "OTE_FIBONACCI",
+        "timeframe": "5m",
+        "params": { "lookbackCandles": 30, "minRetracement": 0.62, "maxRetracement": 0.79 },
+        "weight": 0.9
+      },
+      {
+        "type": "EMA_TREND_FILTER",
+        "timeframe": "1h",
+        "params": { "period": 50 },
+        "weight": 0.5
+      }
+    ]
+  },
+  "riskManagement": {
+    "stopLoss": {
+      "method": "STRUCTURE",
+      "bufferATRMultiple": 0.25
+    },
+    "takeProfit": {
+      "method": "RR_MULTIPLE",
+      "rrTarget": 3
+    },
+    "minRiskReward": 2,
+    "maxRiskPercentPerTrade": 1
+  },
+  "filters": {
+    "minATRPercentile": 60,
+    "excludeNews": true,
+    "cooldownMinutesPerSymbol": 30
+  }
+}
